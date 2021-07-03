@@ -46,8 +46,8 @@
         android:ems="10"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:drawableStart="@drawable/custom_date"
-        android:hint="Date"
+        android:drawableStart="@drawable/expdate"
+        android:hint="Expiry Date"
         android:background="@drawable/custom_input"
         android:drawablePadding="12dp"
         android:inputType="textPersonName"
@@ -56,6 +56,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time"
         android:drawableLeft="@drawable/custom_date" />
+
+
+    <EditText
+        android:id="@+id/mgfdate"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_date"
+        android:drawableLeft="@drawable/custom_date"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="MGF Date"
+        android:inputType="textPersonName"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time" />
 
     <EditText
         android:id="@+id/time"
@@ -80,21 +100,24 @@
         android:id="@+id/btnInsert"
         android:layout_width="192dp"
         android:layout_height="56dp"
-        android:layout_marginStart="103dp"
+        android:layout_marginStart="101dp"
         android:layout_marginLeft="108dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="#1f5057"
         android:text="Insert"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        app:layout_constraintTop_toBottomOf="@+id/mgfdate" />
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="192dp"
         android:layout_height="56dp"
-        android:layout_marginStart="103dp"
+        android:layout_marginStart="101dp"
         android:layout_marginLeft="108dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="#1f5057"
         android:text="Update"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +129,7 @@
         android:id="@+id/btnDelete"
         android:layout_width="192dp"
         android:layout_height="56dp"
-        android:layout_marginStart="103dp"
+        android:layout_marginStart="101dp"
         android:layout_marginLeft="108dp"
         android:backgroundTint="#cc1701"
         android:text="Delete"
@@ -115,13 +138,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnShow"
-        app:layout_constraintVertical_bias="0.186" />
+        app:layout_constraintVertical_bias="0.198" />
 
     <Button
         android:id="@+id/btnShow"
         android:layout_width="192dp"
         android:layout_height="56dp"
-        android:layout_marginStart="103dp"
+        android:layout_marginStart="101dp"
         android:layout_marginLeft="108dp"
         android:backgroundTint="#1f5057"
         android:text="View"
@@ -130,6 +153,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnUpdate"
-        app:layout_constraintVertical_bias="0.099" />
+        app:layout_constraintVertical_bias="0.089" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
