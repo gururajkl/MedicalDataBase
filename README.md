@@ -7,10 +7,6 @@ MAD mini project medical database
   <li> all layouts files are in layouts folder </li>
   <li> all drawables files are in drawable, drawableV24 folder </li>
 </ul>
-<h2> This how App woks </h2>
+<h2> This is how the App works </h2>
 
-<video width="250" autoplay="true">
-
-    <source src="https://res.cloudinary.com/gjcloud/video/upload/v1625292117/Screenrecorder-2021-07-03-07-52-20-250_zlcpih.mp4"
-            type="video/mp4">
-</video>
+https://user-images.githubusercontent.com/54950082/124344894-ea09a000-dbf2-11eb-8806-6dabd7841d90.mp4
