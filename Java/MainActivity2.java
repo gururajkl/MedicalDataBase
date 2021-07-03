@@ -2,24 +2,29 @@ package com.example.demoapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
-import android.content.Intent;
+import android.app.Notification;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity  {
 
-    EditText name,time,date;
+
+
+
+    EditText name,time,date, mdate;
     Button insert, update, delete, view;
     DBHelper DB;
+    private NotificationManagerCompat notificationManager;
 
 
 
@@ -29,14 +34,22 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
 
+        notificationManager = NotificationManagerCompat.from(this);
+
         name = findViewById(R.id.name);
         time = findViewById(R.id.time);
         date = findViewById(R.id.date);
+        mdate = findViewById(R.id.mgfdate);
 
         insert = findViewById(R.id.btnInsert);
         update = findViewById(R.id.btnUpdate);
         delete = findViewById(R.id.btnDelete);
         view = findViewById(R.id.btnShow);
+
+        name.addTextChangedListener(tw);
+        time.addTextChangedListener(tw);
+        date.addTextChangedListener(tw);
+        mdate.addTextChangedListener(tw);
 
         DB = new DBHelper(this);
 
@@ -46,14 +59,16 @@ public class MainActivity2 extends AppCompatActivity {
                 String nameTXT = name.getText().toString();
                 String timeTXT = time.getText().toString();
                 String dateTXT = date.getText().toString();
+                String mdateTXT = mdate.getText().toString();
 
-                Boolean checkinsertdata = DB.insertmedicinedata(nameTXT, timeTXT, dateTXT);
+                Boolean checkinsertdata = DB.insertmedicinedata(nameTXT, timeTXT, dateTXT, mdateTXT);
 
                 if (checkinsertdata == true) {
                     Toast.makeText(MainActivity2.this, "New Entry inserted", Toast.LENGTH_LONG ).show();
                 } else {
                     Toast.makeText(MainActivity2.this, "New Entry not inserted", Toast.LENGTH_LONG ).show();
                 }
+                sendOnChannel2();
             }
         });
 
@@ -63,14 +78,16 @@ public class MainActivity2 extends AppCompatActivity {
                 String nameTXT = name.getText().toString();
                 String timeTXT = time.getText().toString();
                 String dateTXT = date.getText().toString();
+                String mdateTXT = mdate.getText().toString();
 
-                Boolean checkupdatedata = DB.updatemedicinedata(nameTXT, timeTXT, dateTXT);
+                Boolean checkupdatedata = DB.updatemedicinedata(nameTXT, timeTXT, dateTXT, mdateTXT);
 
                 if (checkupdatedata == true) {
                     Toast.makeText(MainActivity2.this, "Entry updated", Toast.LENGTH_LONG ).show();
                 } else {
                     Toast.makeText(MainActivity2.this, " Entry not updated", Toast.LENGTH_LONG ).show();
                 }
+
             }
         });
 
@@ -87,8 +104,14 @@ public class MainActivity2 extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity2.this, " Entry not deleted", Toast.LENGTH_LONG ).show();
                 }
+
+                sendOnChannel1();
             }
         });
+
+
+
+
 
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -101,9 +124,10 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 StringBuffer buffer = new StringBuffer();
                 while(res.moveToNext()) {
-                    buffer.append("Name:" +res.getString(0) + "\n");
-                    buffer.append("Time:" +res.getString(1) + "\n");
-                    buffer.append("Date:" +res.getString(2) + "\n\n");
+                    buffer.append("Name: " +res.getString(0) + "\n");
+                    buffer.append("Time: " +res.getString(1) + "\n");
+                    buffer.append("Expiry Date: " +res.getString(2) + "\n");
+                    buffer.append("MGF Date: " +res.getString(3) + "\n\n");
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity2.this);
@@ -116,4 +140,58 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     }
+
+
+    private void sendOnChannel2() {
+        String title = name.getText().toString();
+        String message = "Medicine Inserted";
+        Notification notification = new NotificationCompat.Builder(this, App.channle_2_ID)
+                .setSmallIcon(R.drawable.ic_baseline_medical)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManager.notify(2, notification);
+    }
+
+    private void sendOnChannel1() {
+        String title = name.getText().toString();
+        String message = "Medicine deleted";
+        Notification notification = new NotificationCompat.Builder(this, App.channle_1_ID)
+                .setSmallIcon(R.drawable.ic_baseline_medical)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManager.notify(1, notification);
+    }
+
+    private TextWatcher tw = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String nm = name.getText().toString().trim();
+            String tm = time.getText().toString().trim();
+            String dt = date.getText().toString().trim();
+            String mdt = mdate.getText().toString().trim();
+
+            insert.setEnabled(!nm.isEmpty() && !tm.isEmpty() && !dt.isEmpty() && !mdt.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+
 }
